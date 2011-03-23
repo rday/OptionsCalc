@@ -1,0 +1,120 @@
+$def with (name)
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+
+<head>
+<script>
+function webreq(uri, method, successFn, errorFn) {
+    console.log('webreq');
+    $$.ajax({url: uri,
+             type: method,
+             success: successFn,
+             error: errorFn });
+}
+
+function autocompleteItems(text) {
+    console.log('autocompleteItems');
+    var res = jQuery.parseJSON(text);
+    var arr = [];
+    $$.each(res.ResultSet.Result,
+            function(i, v) {
+                var obj = {};
+                obj.label = v.symbol + ' : ' + v.name;
+                obj.value = v.symbol;
+                arr.push(obj);
+            });
+    return arr;
+}
+function selectStock(event, ui) {
+    $$('[name=goButton]').html('<img src="http://localhost/stock/loader.gif">');
+    webreq('/stock/' + $$('[name=ticker]').val(), 'GET',
+            function(text, stat, xhr) {
+                console.log(text);
+                var res = text;
+                $$('[name=price]').html(res.last);
+                $$('[name=volume]').html(res.volume);
+                $$('[name=high]').html(res.high);
+                $$('[name=low]').html(res.low);
+                $$('[name=goButton]').html('Go!');
+            }, null);
+    webreq('/optionchain/' + $$('[name=ticker]').val(), 'GET',
+            function(text, stat, xhr) {
+                console.log(text);
+                var res = text;
+                console.log(res.expirations);
+                }, null);
+}
+
+$$(document).ready(
+    function() {
+        $$('[name=ticker]').autocomplete({
+            delay: 250,
+            select: selectStock,
+            source:
+                function(req, add) {
+                    webreq('/search/' + req.term, 'GET', 
+                        function(text, stat, xhr) {
+                            add(autocompleteItems(text));
+                            }, null);
+                        }
+            });
+     });
+</script>
+
+<style type="text/css">
+    body {
+        background-color: #d6d6d6;
+    }
+
+    #main {
+        width: 60%;
+        top: 150px;
+        margin: 0 auto
+    }
+
+    #main fieldset {
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+    }
+
+    .fieldblock {
+        width: 48%;
+        display: inline-block;
+    }
+
+    .fieldblock label { align: left }
+    .fieldblock span { align: right }
+
+</style>
+</head>
+
+<div id="main">
+    <fieldset>
+        <legend>
+            <label for="ticker">Stock Symbol</label>
+            <input type="text" name="ticker">
+            <button name="goButton" onclick="selectStock()">Go!</button>
+        </legend>
+        <div class="fieldblock" style="align:left">
+            <label for="price">Price</label>
+            <span name="price"></span><br />
+            <label for="high">High Price</label>
+            <span name="high"></span><br />
+            <label for="low">Low Price</label>
+            <span name="low"></span><br />
+        </div>
+        <div class="fieldblock" style="align:right">
+            <label for="volume">Volume</label>
+            <span name="volume"></span>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>
+            <label for="expiry">
+            <select name="expiry"></select>
+        </legend>
+        <div name="strip"></div>
+    </fieldset>
+</div>
