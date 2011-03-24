@@ -40,9 +40,40 @@ function selectStock(event, ui) {
             }, null);
     webreq('/optionchain/' + $$('[name=ticker]').val(), 'GET',
             function(text, stat, xhr) {
-                console.log(text);
                 var res = text;
-                console.log(res.expirations);
+                console.log(res);
+                $$('[name=strips]').children().remove();
+                $$.each(res.expirations,
+                        function(i,v) {
+                            var dateVal = String(v.m) + String(v.d) + String(v.y);
+                            var dateStr = v.m + '/' + v.d + '/' + v.y;
+                            console.log(dateVal + dateStr);
+                            $$('<option value="'+dateVal+'">'+dateStr+'</option>').appendTo($$('[name=expiry]'));
+                            });
+                $$.each(res.calls,
+                        function(i,v) {
+                            var strike = v.strike;
+                            var lastCallPrice = v.p;
+                            var callBid = v.b;
+                            var callAsk = v.a;
+                            var callChange = v.c;
+                            var callVolume = v.vol;
+                            var lastPutPrice = res.puts[i].p;
+                            var putBid = res.puts[i].b;
+                            var putAsk = res.puts[i].a;
+                            var putChange = res.puts[i].c;
+                            var putVolume = res.puts[i].vol;
+                            var strip = $$('<tr></tr>');
+                            $$('<td>'+lastCallPrice+'</td>').appendTo(strip);
+                            $$('<td>'+callBid+'</td>').appendTo(strip);
+                            $$('<td>'+callAsk+'</td>').appendTo(strip);
+                            $$('<td>'+strike+'</td>').appendTo(strip);
+                            $$('<td>'+lastPutPrice+'</td>').appendTo(strip);
+                            $$('<td>'+putBid+'</td>').appendTo(strip);
+                            $$('<td>'+putAsk+'</td>').appendTo(strip);
+                            strip.appendTo($$('[name=strips]'));
+                        });
+
                 }, null);
 }
 
@@ -115,6 +146,19 @@ $$(document).ready(
             <label for="expiry">
             <select name="expiry"></select>
         </legend>
-        <div name="strip"></div>
+        <table style="width:100%">
+            <thead>
+                <tr>
+                    <th>Last Price</th>
+                    <th>Bid</th>
+                    <th>Ask</th>
+                    <th>Strike</th>
+                    <th>Last Price</th>
+                    <th>Bid</th>
+                    <th>Ask</th>
+                </tr>
+            </thead>
+            <tbody name="strips"></tbody>
+        </table>
     </fieldset>
 </div>
