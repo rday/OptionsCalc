@@ -6,9 +6,9 @@ $def with (name)
 <head> 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script> 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script> 
-    <script type="text/javascript" src="http://localhost/stock/options.js"></script> 
+    <script type="text/javascript" src="/js/options.js"></script> 
     <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css" rel="stylesheet"/> 
-    <link type="text/css" href="http://localhost/stock/options.css" rel="stylesheet"/> 
+    <link type="text/css" href="/css/options.css" rel="stylesheet"/> 
     <title>Easy Options Calculator</title>
     <script type="text/javascript">
         $$(document).ready(
@@ -20,7 +20,7 @@ $def with (name)
                         function(req, add) {
                             webreq('/search/' + req.term, 'GET',
                                 function(text, stat, xhr) {
-                                    console.log('webreq' + text);
+                                    debugLog('webreq' + text);
                                     add(autocompleteItems(text));
                                     }, null);
                                 }
@@ -76,7 +76,7 @@ $def with (name)
 </div> 
 </div> 
 <div id="footer"> 
- <div id="content"><span><p>&copy; Ryan Day</p>&nbsp;2011</span></div> 
+ <div id="content"><span><a href="http://www.ryanday.net"><p>&copy; Ryan Day</p>&nbsp;2011</a></span></div> 
 </div> 
 </body>
 </html>
