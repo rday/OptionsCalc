@@ -1,6 +1,15 @@
+import os
+import sys
+import site 
+
+cwd = os.path.abspath(os.path.dirname(__file__))
+sys.path.append(cwd)
+sys.stdout = sys.stderr
+
 import web
 from mimerender import mimerender
 import json
+
 from Request import WebRequest
 from Request import StockRequest
 from Request import OptionsRequest
@@ -8,24 +17,24 @@ from Request import OptionsRequest
 render_json = lambda **args: json.JSONEncoder().encode(args)
 
 urls = (
-    '/stock/(.*)', 'Stock',
+    '/stocks/(.*)', 'Stock',
     '/search/(.*)', 'Search',
     '/optionchain/(.*)', 'Options',
-    '/(.*)', 'WebPage',
+    '/(.*)', 'WebPage'
     )
 
 
-app = web.application(urls, globals())
-render = web.template.render('templates/')
 webRequest = WebRequest()
 stockRequest = StockRequest(webRequest)
 optionsRequest = OptionsRequest(webRequest)
 
-if __name__ == "__main__":
-    app.run()
+app = web.application(urls, globals(), autoreload=False)
+render = web.template.render(cwd + '/templates/')
 
 class WebPage:
     def GET(self, page):
+        if page == 'robots.txt':
+            return render.robots()
         return render.index(page)
 
 class Stock:
@@ -49,3 +58,8 @@ class Options:
         cid = optionsRequest.getCid(ticker)
         (len, data) = optionsRequest.getChain(cid)
         return data
+
+if __name__ == "__main__":
+    app.run()
+else:
+    application = app.wsgifunc()
