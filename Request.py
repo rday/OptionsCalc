@@ -96,15 +96,28 @@ class OptionsRequest:
         self.webreq = webreq
         self.cidUrl = '/finance?q=%s&output=json'
         self.optionUrl = '/finance/option_chain?cid=%s&output=json'
+        self.optionDateUrl = '/finance/option_chain?cid=%s&expd=%d&expm=%d&expy=%d&output=json'
 
     def getCid(self, ticker):
         data = self.webreq.request('www.google.com', self.cidUrl % ticker.upper())
         match = re.findall('\"id\": \"(.*?)\"', data)
         if len(match) == 1: return match[0]
 
-    def getChain(self, cid):
-        data = self.webreq.request('www.google.com', self.optionUrl % cid, False)
-        return decode(data)
+    def vix(self):
+        ''' http://www.cboe.com/micro/vix/vixwhite.pdf '''
+        pass
+
+    def getChain(self, cid, ymd=None):
+        if ymd is None:
+            data = self.webreq.request('www.google.com', self.optionUrl % cid)
+            return decode(data)
+        else:
+            s = ymd.split('/')
+            year = int(s[2])
+            month = int(s[0])
+            day = int(s[1])
+            data = self.webreq.request('www.google.com', self.optionDateUrl % (cid,day,month,year))
+            return decode(data)
 
     def IV(self, S, X, R, t, opt_price):
         delta1 = lambda B, R, y: (-math.log(B)+R+0.5*y)/y

@@ -1,0 +1,104 @@
+body {
+    margin: 0;
+    padding: 0;
+    min-width:370px;
+    background:url(http://www.backgroundlabs.com/backgrounds/226.jpg) transparent fixed repeat top left;
+}
+div {
+    border: 1px;
+    border-style: solid;
+}
+#container {
+    width:99%;
+    height:60%;
+    padding-top:30;
+}
+div#spacer {
+    width:100%;
+    min-height:30px;
+}
+div#footer {
+    width:100%;
+    background:url(http://localhost/stock/ground.png) transparent fixed repeat-x left bottom;
+    height:39%;
+    position:absolute;
+}
+div#footer div#content p a {
+    color:#666;
+    font-family:Arial, serif;
+    font-size:10px;
+    text-decoration:none;
+}
+div#footer div#content {
+    width:150px;
+    margin-bottom:-10px;
+    /*border:1px solid red;*/
+    margin-left:auto;
+    margin-right:auto;
+}
+div#footer div#content p {
+    display: inline;
+    font-family: 'ReklameRegular';
+    text-align: center;
+}
+@font-face{
+    font-family: 'MergeRegular';
+    src: url('http://localhost/stock/merge-webfont.eot');
+    src: url('http://localhost/stock/merge-webfont.eot?iefix') format('eot'),
+         url('http://localhost/stock/merge-webfont.woff') format('woff'),
+         url('http://localhost/stock/merge-webfont.ttf') format('truetype'),
+         url('http://localhost/stock/merge-webfont.svg#webfontXPmE03qB') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+ 
+@font-face {
+    font-family: 'ReklameRegular';
+    src: url('http://localhost/stock/ReklameScript-Regular_DEMO-webfont.eot');
+    src: url('http://localhost/stock/ReklameScript-Regular_DEMO-webfont.eot?iefix') format('eot'),
+         url('http://localhost/stock/ReklameScript-Regular_DEMO-webfont.woff') format('woff'),
+         url('http://localhost/stock/ReklameScript-Regular_DEMO-webfont.ttf') format('truetype'),
+         url('http://localhost/stock/ReklameScript-Regular_DEMO-webfont.svg#webfontN5iWxj8h') format('svg');
+    font-weight: normal;
+    font-style: normal;
+ 
+}
+ 
+    #main {
+        width: 60%;
+        margin: 0 auto;
+        background: transparent;
+    }
+ 
+    #main fieldset {
+        background-color:white;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+    }
+    #main fieldset legend {
+        font-family:'MergeRegular';
+        font-weight: bold;
+        color:#22dd22;
+    }
+    #header {
+        width:40%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #header p {
+        font-family:'MergeRegular';
+        font-weight: bold;
+        font-size:45;
+        color:white;
+        text-align: center;
+        width: 100%;
+    }
+ 
+    .fieldblock {
+        width: 48%;
+        display: inline-block;
+    }
+ 
+    .fieldblock label { align: left }
+    .fieldblock span { align: right }
