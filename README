@@ -1,0 +1,11 @@
+Easy Options Calculator
+~~~~~~~~~~~~~~~~~~~~~~~
+
+This is more an introductory project to learn
+how to setup webpy with WSGI, and use Redis,
+and develop some custom parsers in Python.
+
+You will need redis and Apache with WSGI to make
+this code work.
+
+
